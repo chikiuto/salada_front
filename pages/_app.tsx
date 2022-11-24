@@ -5,7 +5,7 @@ import Head from 'next/head'
 export default function App({ Component, pageProps }: AppProps) {
   return <>
     <Head>
-    <title>rails_next</title>
+    <title>saladays</title>
 
     </Head>
     <Component {...pageProps} />
