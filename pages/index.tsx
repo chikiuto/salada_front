@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 type Report = {
 	id: number;
-	age: string;
+	gen: string;
 	sex: string;
 	comment: string;
 	user_id: number;
@@ -21,15 +21,14 @@ const Home: FC<Props> = (props) => {
 	return (
 	<div>
 
-	<Link href="/recipe">
-        サラダを作る
-    </Link>
-
+		<Link href="/recipe">
+			サラダを作る
+		</Link>
 		<h2>Reportの一覧</h2>
 		<table className="dataframe table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th>Age</th>
+					<th>Gen</th>
 					<th>Sex</th>
 					<th>Comment</th>
 					<th>user_id</th>
@@ -39,7 +38,7 @@ const Home: FC<Props> = (props) => {
 			{props.reports.map((report) =>
 			<tbody key={report.id}>
 				<tr>
-					<td>{report.age}</td>
+					<td>{report.gen}</td>
 					<td>{report.sex}</td>
 					<td>{report.comment}</td>
 					<td>{report.user_id}</td>
@@ -48,7 +47,6 @@ const Home: FC<Props> = (props) => {
 			</tbody>
 			)}
 		</table>
-		
 	</div>
 	)
 }

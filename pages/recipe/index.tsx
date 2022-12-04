@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React, { useState, FC } from 'react';
-
 import Link from 'next/link'
-
 
 type Recipe = {
 	id: number;
@@ -13,8 +11,6 @@ type Recipe = {
 	material: string;
 	indication: string;
 }
-
-type Props ={}
 
 const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
   return(
@@ -29,22 +25,27 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 				<th>image</th>
 				</tr>
 			</thead>
-			{ recipes && recipes.map( ( recipe:any ) =>
-			<tbody key={recipe.id}>
-			<tr>
-				<td>{ recipe.title }</td>
-				<td>{ recipe.indication }</td>
-				<td>{ recipe.cost }</td>
-				<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
-				<td>
-					<img src={ recipe.food_image_url } alt="food_img" style={{height: '120px'}}/>
-					<br />
-					<a href={ recipe.url } target="blank" > レシピを見る </a>
-					<p>- - - -</p>
-					<Link href="/report" > たべたよ！ </Link>
-        </td>
-			</tr>
-			</tbody>
+			{ recipes && recipes.map( ( recipe:any ) => {
+				const reportInfo = { recipe_id: recipe.id,
+															title: recipe.title,
+															img: recipe.food_image_url };
+				return (
+					<tbody key={ recipe.id }>
+						<tr>
+							<td>{ recipe.title }</td>
+							<td>{ recipe.indication }</td>
+							<td>{ recipe.cost }</td>
+							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
+							<td>
+								<img src={ recipe.food_image_url } alt="food_img" style={{height: '120px'}}/>
+								<br />
+								<a href={ recipe.url } target="blank" > レシピを見る </a>
+								<p>- - - -</p>
+								<Link	href={ { pathname: '/report', query: reportInfo } }> 作ったよ！</Link>
+							</td>
+						</tr>
+					</tbody>
+				)}
 			)}
 		</table>
     </>
@@ -90,6 +91,7 @@ const RecipeIndex: FC = () => {
   const jikanChange = (event: any) => {
 	  setJikan( event.target.value );
   }
+
   const btnitems = [
 	  { id: 0, message: "指定なし", value:'' },
 	  { id: 1, message: "5分以内", value:'5分以内' },

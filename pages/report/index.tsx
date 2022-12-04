@@ -1,59 +1,128 @@
-import React, { FC } from "react";
-import { GetServerSideProps } from "next";
-import axios from "axios"
+import React, { useState, FC } from "react";
+import axios from 'axios';
+import { useRouter } from "next/router";
+import Link from 'next/link'
 
-type Report = {
-	id: number;
-	age: string;
-	sex: string;
-	comment: string;
-	user_id: number;
-	recipe_id: number;
-}
 
-type Props = {
-	reports: Report[];
-}
-
-const ReportIndex: FC<Props> = (props) => {
+const ReportTable: FC = () => {
+	const router = useRouter();
 	return (
 	<div>
-		
 		<h2>投稿の確認</h2>
 		<table className="dataframe table table-bordered table-hover">
 			<thead>
 				<tr>
-					<th>Age</th>
-					<th>Sex</th>
-					<th>Comment</th>
-					<th>user_id</th>
-					<th>recipe_id</th>
+					<th>Recipe id</th>
+					<th>title</th>
+					<th>image</th>
 				</tr>
 			</thead>
-			{props.reports.map((report) =>
-			<tbody key={report.id}>
+			<tbody>
 				<tr>
-					<td>{report.age}</td>
-					<td>{report.sex}</td>
-					<td>{report.comment}</td>
-					<td>{report.user_id}</td>
-					<td>{report.recipe_id}</td>
+					<td>{ router.query.recipe_id }</td>
+					<td>{ router.query.title }</td>
+					<td>
+						<img src={ router.query.img } alt="food_img" style={{height: '120px'}}/>
+					</td>
 				</tr>
 			</tbody>
-			)}
 		</table>
 	</div>
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async context => {
-	const res = axios.get( 'http://127.0.0.1:8000/', );
-	const items = (await res).data;
-	return {
-		props: {
-			reports: items
-			},
-	};
-}
+const ReportIndex: FC = () => {
+	const router = useRouter();
+
+	// Hook を設定
+	const [sex, setSex] = useState('');
+	const [gen, setGen] = useState('');
+	const [comment, setComment] = useState('');
+	const [thanks, setThanks] = useState('');
+
+  const selectSex = ( event: any ) => {
+	  setSex( event.target.value );
+  }
+  const selectGen = (event: any) => {
+	  setGen( event.target.value );
+  }
+  const putComment = (event: any) => {
+	  setComment( event.target.value );
+  }
+
+  const sexitems = [
+	  { id: 0, message: "男性", value:'男性' },
+	  { id: 1, message: "女性", value:'女性' },
+	  { id: 2, message: "その他", value:'その他' },
+  ];
+  const genitems = [
+	  { id: 0, message: "20代未満", value:'20代未満' },
+	  { id: 1, message: "20代", value:'20代' },
+  ];
+  
+  // API実行
+	const API_URL = 'http://127.0.0.1:8000/report/create';
+  const CallApi = () => {
+		axios.post(
+			API_URL, 
+			{ gen: gen,
+				sex: sex,
+				comment: comment,
+				recipe_id: router.query.recipe_id, 
+				user_id: router.query.user_id }
+		)
+		setThanks( "thank!!")
+	}
+
+	return (
+		<>
+      <ReportTable />
+
+		  <h1>投稿を確認する画面</h1>
+			<p>あなたが作ったサラダをよろしければ共有してください！！<br />
+			↓ で性別と年代を選択して「共有する」を押してください！！
+			</p>
+			<br />
+		  <form>
+        <div>
+					<h4>性別</h4>
+          { sexitems.map( btn =>
+          <div key={ btn.id }>
+            <label>
+              <input type="radio" name="sex" value={btn.value} onChange={ selectSex } />
+              { btn.message }
+            </label>
+            <br />
+          </div>
+          )}
+        </div>
+				<p>- - - -</p>
+				<div>
+					<h4>世代</h4>
+          { genitems.map( btn =>
+          <div key={ btn.id }>
+            <label>
+              <input type="radio" name="gen" value={btn.value} onChange={ selectGen } />
+              { btn.message }
+            </label>
+            <br />
+          </div>
+          )}
+        </div>
+				<br />
+				<p>コメント</p>
+				<input value={ comment } type="text" name="comment" onChange={ putComment } />
+				<br />
+        {/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
+        <button type="button" onClick={ () => CallApi() }>共有する</button>
+				{ thanks }
+		  </form>
+			<br />
+			<Link href="/">トップに戻る</Link>
+
+		  <br />
+		</>
+	);
+};
 
 export default ReportIndex;
