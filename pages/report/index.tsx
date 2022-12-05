@@ -7,6 +7,7 @@ import Image from "next/image";
 
 const ReportTable: FC = () => {
 	const router = useRouter();
+	const image_url:any = router.query.img;
 	return (
 	<div>
 		<h2>投稿の確認</h2>
@@ -23,7 +24,7 @@ const ReportTable: FC = () => {
 					<td>{ router.query.recipe_id }</td>
 					<td>{ router.query.title }</td>
 					<td>
-						<Image src={router.query.img} alt="food_img" height={120}/>
+						<Image src={ image_url } alt="food_img" height={120}/>
 					</td>
 				</tr>
 			</tbody>
