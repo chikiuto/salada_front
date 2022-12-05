@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, FC } from 'react';
 import Link from 'next/link'
+import Image from 'next/image';
 
 type Recipe = {
 	id: number;
@@ -37,7 +38,7 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<td>{ recipe.cost }</td>
 							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
 							<td>
-								<img src={ recipe.food_image_url } alt="food_img" style={{height: '120px'}}/>
+								<Image src={ recipe.food_image_url } alt="food_img" height={120}/>
 								<br />
 								<a href={ recipe.url } target="blank" > レシピを見る </a>
 								<p>- - - -</p>

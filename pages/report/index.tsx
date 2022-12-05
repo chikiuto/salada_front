@@ -2,6 +2,7 @@ import React, { useState, FC } from "react";
 import axios from 'axios';
 import { useRouter } from "next/router";
 import Link from 'next/link'
+import Image from "next/image";
 
 
 const ReportTable: FC = () => {
@@ -22,7 +23,7 @@ const ReportTable: FC = () => {
 					<td>{ router.query.recipe_id }</td>
 					<td>{ router.query.title }</td>
 					<td>
-						<img src={ router.query.img } alt="food_img" style={{height: '120px'}}/>
+						<Image src={router.query.img} alt="food_img" height={120}/>
 					</td>
 				</tr>
 			</tbody>
