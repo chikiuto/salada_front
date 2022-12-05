@@ -59,7 +59,7 @@ const RecipeIndex: FC = () => {
 	const [jikan, setJikan] = useState('');
 	const [zairyou, setZairyou] = useState('');
 
-  const API_URL = 'http://127.0.0.1:8000/recipes/index';
+  const API_URL = 'https://sarada-api.onrender.com/recipes/index';
   
   // API実行
   const CallApi = () => {

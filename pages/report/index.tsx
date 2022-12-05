@@ -63,7 +63,7 @@ const ReportIndex: FC = () => {
   ];
   
   // API実行
-	const API_URL = 'http://127.0.0.1:8000/report/create';
+	const API_URL = 'https://sarada-api.onrender.com/report/create';
   const CallApi = () => {
 		axios.post(
 			API_URL, 
