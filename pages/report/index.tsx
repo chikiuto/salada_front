@@ -7,6 +7,7 @@ import Image from "next/image";
 
 const ReportTable: FC = () => {
 	const router = useRouter();
+	router.isReady;
 	const img_url:string = router.query.img_url;
 	return (
 	<div>
