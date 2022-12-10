@@ -25,7 +25,7 @@ const ReportTable: FC = () => {
 					<td>{ router.query.recipe_id }</td>
 					<td>{ router.query.title }</td>
 					<td>
-						<img src={ img_url } alt="food_img" height={120}/>
+						<img src={ img_url } alt="food_img" width="176"/>
 					</td>
 				</tr>
 			</tbody>

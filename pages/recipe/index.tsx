@@ -40,7 +40,7 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<td>{ recipe.cost }</td>
 							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
 							<td>
-								<Image src={ recipe.food_image_url } alt="food_img"/>
+								<Image src={ recipe.food_image_url } alt="food_img" width="111" height={111}/>
 								<br />
 								<a href={ recipe.url } target="blank" > レシピを見る </a>
 								<br />
