@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const ReportTable: FC = () => {
 	const router = useRouter();
-	const image_url:any = router.query.img;
+	const img_url:string = router.query.img_url;
 	return (
 	<div>
 		<h2>投稿の確認</h2>
@@ -24,7 +24,7 @@ const ReportTable: FC = () => {
 					<td>{ router.query.recipe_id }</td>
 					<td>{ router.query.title }</td>
 					<td>
-						<Image src={ image_url } alt="food_img" height={120}/>
+						<img src={ img_url } alt="food_img" height={120}/>
 					</td>
 				</tr>
 			</tbody>
@@ -60,10 +60,15 @@ const ReportIndex: FC = () => {
   const genitems = [
 	  { id: 0, message: "20代未満", value:'20代未満' },
 	  { id: 1, message: "20代", value:'20代' },
+	  { id: 2, message: "30代", value:'30代' },
+	  { id: 3, message: "40代", value:'40代' },
+	  { id: 4, message: "50代", value:'50代' },
+	  { id: 5, message: "60代以上", value:'60代以上' },
   ];
   
   // API実行
-	const API_URL = 'https://sarada-api.onrender.com/report/create';
+	// const API_URL = 'https://sarada-api.onrender.com/report/create';
+	const API_URL = 'http://127.0.0.1:8000/report/create';
   const CallApi = () => {
 		axios.post(
 			API_URL, 
@@ -72,22 +77,21 @@ const ReportIndex: FC = () => {
 				comment: comment,
 				recipe_id: router.query.recipe_id, 
 				user_id: router.query.user_id }
-		)
-		setThanks( "thank!!")
+		);
+		setThanks( "thank!!");
 	}
 
 	return (
 		<>
       <ReportTable />
 
-		  <h1>投稿を確認する画面</h1>
-			<p>あなたが作ったサラダをよろしければ共有してください！！<br />
+			<p>よろしければあなたが作ったサラダを共有してください！！<br />
 			↓ で性別と年代を選択して「共有する」を押してください！！
 			</p>
 			<br />
 		  <form>
         <div>
-					<h4>性別</h4>
+		<h4>性別</h4>
           { sexitems.map( btn =>
           <div key={ btn.id }>
             <label>
@@ -98,7 +102,7 @@ const ReportIndex: FC = () => {
           </div>
           )}
         </div>
-				<p>- - - -</p>
+				<br /> - - - - <br />
 				<div>
 					<h4>世代</h4>
           { genitems.map( btn =>
@@ -120,7 +124,7 @@ const ReportIndex: FC = () => {
 				{ thanks }
 		  </form>
 			<br />
-			<Link href="/">トップに戻る</Link>
+			<Link href={ { pathname: '/' } }>トップに戻る</Link>
 
 		  <br />
 		</>

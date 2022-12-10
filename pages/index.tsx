@@ -31,8 +31,7 @@ const Home: FC<Props> = (props) => {
 					<th>Gen</th>
 					<th>Sex</th>
 					<th>Comment</th>
-					<th>user_id</th>
-					<th>recipe_id</th>
+					<th>recipe title</th>
 				</tr>
 			</thead>
 			{props.reports.map((report) =>
@@ -41,7 +40,6 @@ const Home: FC<Props> = (props) => {
 					<td>{report.gen}</td>
 					<td>{report.sex}</td>
 					<td>{report.comment}</td>
-					<td>{report.user_id}</td>
 					<td>{report.recipe_id}</td>
 				</tr>
 			</tbody>
@@ -52,7 +50,9 @@ const Home: FC<Props> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-	const res = axios.get( 'https://sarada-api.onrender.com/' );
+	// const API_URL = 'https://sarada-api.onrender.com/';
+	const API_URL = 'http://127.0.0.1:8000';
+	const res = axios.get( API_URL );
 	const items = (await res).data;
 	return {
 		props: {

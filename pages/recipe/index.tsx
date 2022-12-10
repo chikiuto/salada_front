@@ -27,9 +27,11 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 				</tr>
 			</thead>
 			{ recipes && recipes.map( ( recipe:any ) => {
-				const reportInfo = { recipe_id: recipe.id,
-															title: recipe.title,
-															img: recipe.food_image_url };
+				const reportInfo = {
+					recipe_id: recipe.id,
+					title: recipe.title,
+					img_url: recipe.food_image_url
+				};
 				return (
 					<tbody key={ recipe.id }>
 						<tr>
@@ -38,10 +40,12 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<td>{ recipe.cost }</td>
 							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
 							<td>
-								<Image src={ recipe.food_image_url } alt="food_img" height={120}/>
+								<img src={ recipe.food_image_url } alt="food_img" height={120}/>
 								<br />
 								<a href={ recipe.url } target="blank" > レシピを見る </a>
-								<p>- - - -</p>
+								<br />
+								- - - -
+								<br />
 								<Link	href={ { pathname: '/report', query: reportInfo } }> 作ったよ！</Link>
 							</td>
 						</tr>
@@ -59,7 +63,8 @@ const RecipeIndex: FC = () => {
 	const [jikan, setJikan] = useState('');
 	const [zairyou, setZairyou] = useState('');
 
-  const API_URL = 'https://sarada-api.onrender.com/recipes/index';
+  // const API_URL = 'https://sarada-api.onrender.com/recipes/index';
+  const API_URL = 'http://127.0.0.1:8000/recipes/index';
   
   // API実行
   const CallApi = () => {
