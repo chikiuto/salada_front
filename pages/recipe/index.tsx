@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, FC } from 'react';
 import Link from 'next/link'
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import Image from 'next/image';
 
 type Recipe = {
@@ -40,7 +41,7 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<td>{ recipe.cost }</td>
 							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
 							<td>
-								<img src={ recipe.food_image_url } alt="food_img" height={120}/>
+								<Image src={ recipe.food_image_url } alt="food_img" height={120}/>
 								<br />
 								<a href={ recipe.url } target="blank" > レシピを見る </a>
 								<br />
@@ -89,7 +90,7 @@ const RecipeIndex: FC = () => {
 		console.log('Error', error.message);
 		}
 		});
-  }
+  };
 
   const zairyouChange = ( event: any ) => {
 	  setZairyou( event.target.value );
