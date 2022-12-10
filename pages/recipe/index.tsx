@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, FC } from 'react';
 import Link from 'next/link'
-import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import Image from 'next/image';
 
 type Recipe = {
@@ -17,7 +16,7 @@ type Recipe = {
 const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
   return(
     <>
-    <table className="dataframe table table-bordered table-hover" >
+    <table>
 			<thead>
 			  <tr>
 				<th>title</th>
@@ -41,7 +40,7 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<td>{ recipe.cost }</td>
 							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
 							<td>
-								<Image src={ recipe.food_image_url } alt="food_img" height={120}/>
+								<Image src={ recipe.food_image_url } alt="food_img"/>
 								<br />
 								<a href={ recipe.url } target="blank" > レシピを見る </a>
 								<br />

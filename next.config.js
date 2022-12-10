@@ -5,6 +5,9 @@ const nextConfig = {
   experimental: {
     appDir: false,
   },
+  images: {
+    domains: ['rakuten.co.jp'],
+  }
 }
 
 module.exports = nextConfig
