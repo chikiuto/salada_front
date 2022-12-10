@@ -50,8 +50,8 @@ const Home: FC<Props> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-	// const API_URL = 'https://sarada-api.onrender.com/';
-	const API_URL = 'http://127.0.0.1:8000';
+	const API_URL = 'https://sarada-api.onrender.com/';
+	// const API_URL = 'http://127.0.0.1:8000';
 	const res = axios.get( API_URL );
 	const items = (await res).data;
 	return {
