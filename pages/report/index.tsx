@@ -103,7 +103,7 @@ const ReportIndex: FC = () => {
           </div>
           )}
         </div>
-				<br /> - - - - <br />
+				- - - - 
 				<div>
 					<h4>世代</h4>
           { genitems.map( btn =>
@@ -117,7 +117,7 @@ const ReportIndex: FC = () => {
           )}
         </div>
 				<br />
-				<p>コメント</p>
+				コメント<br />
 				<input value={ comment } type="text" name="comment" onChange={ putComment } />
 				<br />
         {/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}

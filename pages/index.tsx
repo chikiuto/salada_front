@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { GetServerSideProps } from "next";
 import axios from "axios"
 import Link from 'next/link'
+import { Heading, Box, Button, Text } from '@chakra-ui/react';
 
 
 type Report = {
