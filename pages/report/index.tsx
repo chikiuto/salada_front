@@ -3,34 +3,52 @@ import axios from 'axios';
 import { useRouter } from "next/router";
 import Link from 'next/link'
 import Image from "next/image";
-
+import {
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	TableContainer,
+	FormControl,
+  FormLabel,
+	Input,
+	Select,
+	Button,
+	Box,
+  } from '@chakra-ui/react'
 
 const ReportTable: FC = () => {
 	const router = useRouter();
 	router.isReady;
 	const img_url:any = router.query.img_url;
 	return (
-	<div>
+	<>
 		<h2>投稿の確認</h2>
-		<table className="dataframe table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>Recipe id</th>
-					<th>title</th>
-					<th>image</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{ router.query.recipe_id }</td>
-					<td>{ router.query.title }</td>
-					<td>
-						<img src={ img_url } alt="food_img" width="176"/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+		<TableContainer>
+			<Table variant='simple' colorScheme="green">
+				<Thead>
+					<Tr>
+						<Th>Recipe id</Th>
+						<Th>title</Th>
+						<Th>image</Th>
+					</Tr>
+				</Thead>
+				<Tbody>
+					<Tr>
+						<Td>{ router.query.recipe_id }</Td>
+						<Td>{ router.query.title }</Td>
+						<Td>
+							<Image src={ img_url } alt="food_img" width="200" height="200"/>
+						</Td>
+					</Tr>
+				</Tbody>
+			</Table>
+		</TableContainer>
+
+		<br />
+	</>
 	)
 }
 
@@ -79,55 +97,40 @@ const ReportIndex: FC = () => {
 				recipe_id: router.query.recipe_id, 
 				user_id: router.query.user_id }
 		);
-		setThanks( "thank!!");
+		setThanks( "thank!!" )　;
 	}
 
 	return (
 		<>
       <ReportTable />
-
-			<p>よろしければあなたが作ったサラダを共有してください！！<br />
+			<Box>よろしければあなたが作ったサラダを共有してください！！<br />
 			↓ で性別と年代を選択して「共有する」を押してください！！
-			</p>
+			</Box>
 			<br />
-		  <form>
-        <div>
-		<h4>性別</h4>
-          { sexitems.map( btn =>
-          <div key={ btn.id }>
-            <label>
-              <input type="radio" name="sex" value={btn.value} onChange={ selectSex } />
-              { btn.message }
-            </label>
-            <br />
-          </div>
-          )}
-        </div>
-				- - - - 
-				<div>
-					<h4>世代</h4>
-          { genitems.map( btn =>
-          <div key={ btn.id }>
-            <label>
-              <input type="radio" name="gen" value={btn.value} onChange={ selectGen } />
-              { btn.message }
-            </label>
-            <br />
-          </div>
-          )}
-        </div>
+		  <FormControl as='fieldset' width={300} >
+				<FormLabel>性別</FormLabel>
+				<Select name="sex" onChange={ selectSex } placeholder='性別を選択'>
+					{ sexitems.map( btn =>
+						<option key={ btn.id } value={btn.value}>{ btn.message }</option>
+					)}
+				</Select>
+				<br />
+				<FormLabel>年代</FormLabel>
+				<Select name="gen" onChange={ selectGen }　placeholder='年代を選択'>
+					{ genitems.map( btn =>
+						<option key={ btn.id } value={btn.value}>{ btn.message }</option>
+					)}
+				</Select>
 				<br />
 				コメント<br />
-				<input value={ comment } type="text" name="comment" onChange={ putComment } />
+				<Input value={ comment } type="text" name="comment" onChange={ putComment } placeholder='200文字以内'/>
 				<br />
         {/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
-        <button type="button" onClick={ () => CallApi() }>共有する</button>
-				{ thanks }
-		  </form>
+        <Button type="submit" mt={4} onClick={ () => CallApi() }>共有する</Button>
+				<Box fontSize={100}>{ thanks }</Box>
+		  </FormControl>
 			<br />
-			<Link href={ { pathname: '/' } }>トップに戻る</Link>
-
-		  <br />
+			<Link href={ { pathname: '/' } }><Button bg='green.200' rounded='base' >トップに戻る</Button></Link>
 		</>
 	);
 };

@@ -2,8 +2,18 @@ import React, { FC } from "react";
 import { GetServerSideProps } from "next";
 import axios from "axios"
 import Link from 'next/link'
-import { Heading, Box, Button, Text } from '@chakra-ui/react';
+import Image from "next/image";
 
+import {
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	TableContainer,
+	Button,
+  } from '@chakra-ui/react'
 
 type Report = {
 	id: number;
@@ -12,6 +22,8 @@ type Report = {
 	comment: string;
 	user_id: number;
 	recipe_id: number;
+	title: string;
+	food_image_url: string;
 }
 
 type Props = {
@@ -21,31 +33,35 @@ type Props = {
 const Home: FC<Props> = (props) => {
 	return (
 	<div>
-
 		<Link href="/recipe">
-			サラダを作る
+		<Button bg='green.200' rounded='base' >サラダを作る</Button>
+
 		</Link>
-		<h2>Reportの一覧</h2>
-		<table className="dataframe table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>Gen</th>
-					<th>Sex</th>
-					<th>Comment</th>
-					<th>recipe title</th>
-				</tr>
-			</thead>
-			{props.reports.map((report) =>
-			<tbody key={report.id}>
-				<tr>
-					<td>{report.gen}</td>
-					<td>{report.sex}</td>
-					<td>{report.comment}</td>
-					<td>{report.recipe_id}</td>
-				</tr>
-			</tbody>
-			)}
-		</table>
+		<h2>みんなが作ったサラダ</h2>
+		<TableContainer>
+			<Table variant='simple'>
+				<Thead>
+					<Tr>
+						<Th>Gen</Th>
+						<Th>Sex</Th>
+						<Th>Comment</Th>
+						<Th>recipe title</Th>
+						<Th>Image</Th>
+					</Tr>
+				</Thead>
+				{props.reports && props.reports.map((report) =>
+				<Tbody key={report.id}>
+					<Tr>
+						<Td>{report.gen}</Td>
+						<Td>{report.sex}</Td>
+						<Td>{report.comment}</Td>
+						<Td>{report.title}</Td>
+						<Td><Image src={ report.food_image_url } alt="food_img" width={100} height={100}/></Td>
+					</Tr>
+				</Tbody>
+				)}
+			</Table>
+		</TableContainer>
 	</div>
 	)
 }

@@ -2,6 +2,20 @@ import axios from 'axios';
 import React, { useState, FC } from 'react';
 import Link from 'next/link'
 import Image from 'next/image';
+import {
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	TableContainer,
+	FormControl,
+  FormLabel,
+	Input,
+	Select,
+	Button,
+  } from '@chakra-ui/react'
 
 type Recipe = {
 	id: number;
@@ -16,43 +30,46 @@ type Recipe = {
 const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
   return(
     <>
-    <table>
-			<thead>
-			  <tr>
-				<th>title</th>
-				<th>Indication</th>
-				<th>Cost</th>
-				<th>Material</th>
-				<th>image</th>
-				</tr>
-			</thead>
-			{ recipes && recipes.map( ( recipe:any ) => {
-				const reportInfo = {
-					recipe_id: recipe.id,
-					title: recipe.title,
-					img_url: recipe.food_image_url
-				};
-				return (
-					<tbody key={ recipe.id }>
-						<tr>
-							<td>{ recipe.title }</td>
-							<td>{ recipe.indication }</td>
-							<td>{ recipe.cost }</td>
-							<td>{ recipe.material && recipe.material.replace(/"|\]|\[/g,'') }</td>
-							<td>
-								<Image src={ recipe.food_image_url } alt="food_img" width="111" height={111}/>
-								<br />
-								<a href={ recipe.url } target="blank" > レシピを見る </a>
-								<br />
-								- - - -
-								<br />
-								<Link	href={ { pathname: '/report', query: reportInfo } }> 作ったよ！</Link>
-							</td>
-						</tr>
-					</tbody>
+		<TableContainer>
+			<Table variant='simple' colorScheme="green">
+				<Thead>
+					<Tr>
+						<Th>title</Th>
+						<Th>image</Th>
+						<Th>Indication</Th>
+						<Th>Cost</Th>
+						<Th>Material</Th>
+					</Tr>
+				</Thead>
+				{ recipes && recipes.map( ( recipe:any ) => {
+					const reportInfo = {
+						recipe_id: recipe.id,
+						title: recipe.title,
+						img_url: recipe.food_image_url
+					};
+					return (
+						<Tbody key={ recipe.id }>
+							<Tr>
+								<Td>{ recipe.title }</Td>
+								<Td>
+									<Image src={ recipe.food_image_url } alt="food_img" width={100} height={100}/>
+									<Link href={ recipe.url } target="blank" > レシピを見る </Link>
+									<br />
+									- - - -
+									<br />
+									<Link href={ { pathname: '/report', query: reportInfo } }> 
+										<Button bg='green.200' rounded='base' >作ったよ !</Button>
+									</Link>
+								</Td>
+								<Td>{ recipe.indication }</Td>
+								<Td>{ recipe.cost }</Td>
+								<Td>{ recipe.material && recipe.material.replace(　/"|\]|\[/g,　''　) }</Td>
+							</Tr>
+						</Tbody>
+					)}
 				)}
-			)}
-		</table>
+			</Table>
+		</TableContainer>
     </>
   )
 }
@@ -64,7 +81,7 @@ const RecipeIndex: FC = () => {
 	const [zairyou, setZairyou] = useState('');
 
   const API_URL = 'https://sarada-api.onrender.com/recipes/index';
-  // const API_URL = 'http://127.0.0.1:8000/recipes/index';
+//   const API_URL = 'http://127.0.0.1:8000/recipes/index';
   
   // API実行
   const CallApi = () => {
@@ -94,7 +111,7 @@ const RecipeIndex: FC = () => {
   const zairyouChange = ( event: any ) => {
 	  setZairyou( event.target.value );
   }
-  const jikanChange = (event: any) => {
+  const jikanChange = (　event: any　) => {
 	  setJikan( event.target.value );
   }
 
@@ -105,28 +122,26 @@ const RecipeIndex: FC = () => {
 	  { id: 3, message: "約15分", value:'約15分' },
 	  { id: 4, message: "約30分", value:'約30分' },
 	  { id: 5, message: "約1時間", value:'約1時間' },
-	  { id: 5, message: "1時間以上", value:'1時間以上' },
+	  { id: 6, message: "1時間以上", value:'1時間以上' },
   ];
 
 	return (
 		<>
-		  <h1>API実行する画面</h1>
-		  <form>
-        <div>
-          { btnitems.map( btn =>
-          <div key={ btn.id }>
-            <label>
-              <input type="radio" name="jikan" value={btn.value} onChange={ jikanChange } />
-              { btn.message }
-            </label>
-              <br />
-          </div>
-          )}
-        </div>
-        <input value={ zairyou } type="text" name="zairyou" onChange={ zairyouChange } />
-        {/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
-        <button type="button" onClick={ () => CallApi() }>さがす</button>
-		  </form>
+		  <h1>サラダを探しのAPI</h1>
+			<br />
+		  <FormControl as='fieldset' width={300}>
+				<FormLabel>時間</FormLabel>
+				<Select name="jikan" onChange={ jikanChange }>
+					{ btnitems.map( btn =>
+						<option key={ btn.id } value={ btn.value　}>{ btn.message}</option>
+					)}
+				</Select>
+				<br />
+				<FormLabel>材料</FormLabel>
+				<Input value={ zairyou } name="zairyou" onChange={ zairyouChange } placeholder='レタス'/>
+				{/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
+				<Button type="submit" mt={4} onClick={ () => CallApi() }>さがす</Button>
+		  </FormControl>
 		  <br />
       <TableComp recipes={ recipes } />
 		</>
