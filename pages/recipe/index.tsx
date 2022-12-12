@@ -15,6 +15,8 @@ import {
 	Input,
 	Select,
 	Button,
+	Box,
+	Text,
   } from '@chakra-ui/react'
 
 type Recipe = {
@@ -52,8 +54,10 @@ const TableComp: FC<{ recipes: Recipe[] }> = ( {recipes} ) => {
 							<Tr>
 								<Td>{ recipe.title }</Td>
 								<Td>
-									<Image src={ recipe.food_image_url } alt="food_img" width={100} height={100}/>
-									<Link href={ recipe.url } target="blank" > レシピを見る </Link>
+									<Image src={ recipe.food_image_url } alt="food_img" width={150} height={150}/>
+									<Link href={ recipe.url } target="blank" >
+										<Button fontSize='md'>見る</Button> 
+									</Link>
 									<br />
 									- - - -
 									<br />
@@ -127,23 +131,25 @@ const RecipeIndex: FC = () => {
 
 	return (
 		<>
-		  <h1>サラダを探しのAPI</h1>
-			<br />
-		  <FormControl as='fieldset' width={300}>
-				<FormLabel>時間</FormLabel>
-				<Select name="jikan" onChange={ jikanChange }>
-					{ btnitems.map( btn =>
-						<option key={ btn.id } value={ btn.value　}>{ btn.message}</option>
-					)}
-				</Select>
+			<Box m={4}>
+			  <Text fontSize='4xl'>サラダを検索しよう</Text>
 				<br />
-				<FormLabel>材料</FormLabel>
-				<Input value={ zairyou } name="zairyou" onChange={ zairyouChange } placeholder='レタス'/>
-				{/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
-				<Button type="submit" mt={4} onClick={ () => CallApi() }>さがす</Button>
-		  </FormControl>
-		  <br />
-      <TableComp recipes={ recipes } />
+				<FormControl as='fieldset' width={300}>
+					<FormLabel>時間</FormLabel>
+					<Select name="jikan" onChange={ jikanChange }>
+						{ btnitems.map( btn =>
+							<option key={ btn.id } value={ btn.value　}>{ btn.message}</option>
+						)}
+					</Select>
+					<br />
+					<FormLabel>材料</FormLabel>
+					<Input value={ zairyou } name="zairyou" onChange={ zairyouChange } placeholder='レタス'/>
+					{/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
+					<Button type="submit" mt={4} onClick={ () => CallApi() }>さがす</Button>
+				</FormControl>
+				<br />
+				<TableComp recipes={ recipes } />
+			</Box>
 		</>
 	);
 };

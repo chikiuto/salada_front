@@ -11,8 +11,12 @@ import {
 	Tr,
 	Th,
 	Td,
+	TableCaption,
 	TableContainer,
 	Button,
+	Box,
+	Text,
+	Center,
   } from '@chakra-ui/react'
 
 type Report = {
@@ -33,14 +37,26 @@ type Props = {
 
 const Home: FC<Props> = (props) => {
 	return (
-	<div>
-		<Link href="/recipe">
-		<Button bg='green.200' rounded='base' >サラダを作る</Button>
-
-		</Link>
-		<h2>みんなが作ったサラダ</h2>
+	<Box>
+		<Box 
+			h={600}
+			backgroundImage="url('/top.jpg')"
+			backgroundPosition="center"
+			backgroundRepeat="no-repeat" 
+			backgroundColor={"green.500"}
+			position="relative"
+		>
+			<Box position="absolute" top="10" left="10" >
+				<Text fontSize='9xl' color='green.50'>Saladays</Text>
+				<Link href="/recipe">
+					<Button bg='red.100' rounded='base' m={3} fontSize='2xl'>サラダを作る</Button>
+				</Link>
+			</Box>
+		</Box>
+		<br />
 		<TableContainer>
 			<Table variant='simple'>
+				<TableCaption>みんなが作ったサラダ</TableCaption>
 				<Thead>
 					<Tr>
 						<Th>Gen</Th>
@@ -54,18 +70,18 @@ const Home: FC<Props> = (props) => {
 				{props.reports && props.reports.map((report) =>
 				<Tbody key={report.id}>
 					<Tr>
-						<Td>{report.gen}</Td>
-						<Td>{report.sex}</Td>
-						<Td>{report.comment}</Td>
-						<Td>{report.title}</Td>
+						<Td>{ report.gen }</Td>
+						<Td>{ report.sex }</Td>
+						<Td>{ report.comment }</Td>
+						<Td>{ report.title }</Td>
 						<Td><Image src={ report.food_image_url } alt="food_img" width={100} height={100}/></Td>
-						<Td>{report.created_at}</Td>
+						<Td>{ report.created_at }</Td>
 					</Tr>
 				</Tbody>
 				)}
 			</Table>
 		</TableContainer>
-	</div>
+	</Box>
 	)
 }
 

@@ -17,6 +17,7 @@ import {
 	Select,
 	Button,
 	Box,
+	Text,
   } from '@chakra-ui/react'
 
 const ReportTable: FC = () => {
@@ -25,7 +26,7 @@ const ReportTable: FC = () => {
 	const img_url:any = router.query.img_url;
 	return (
 	<>
-		<h2>投稿の確認</h2>
+		<Text fontSize='4xl'>投稿の確認</Text>
 		<TableContainer>
 			<Table variant='simple' colorScheme="green">
 				<Thead>
@@ -46,7 +47,6 @@ const ReportTable: FC = () => {
 				</Tbody>
 			</Table>
 		</TableContainer>
-
 		<br />
 	</>
 	)
@@ -102,35 +102,39 @@ const ReportIndex: FC = () => {
 
 	return (
 		<>
-      <ReportTable />
-			<Box>よろしければあなたが作ったサラダを共有してください！！<br />
-			↓ で性別と年代を選択して「共有する」を押してください！！
+			<Box m={4}>
+				<ReportTable />
+				<Text fontSize='md'>よろしければあなたが作ったサラダを共有してください！！<br />
+				以下で性別と年代を選択して「共有する」を押してください！！<br />
+				（ ** 共有しなくてもトップに戻れます **）
+				</Text>
+				<br />
+				<FormControl as='fieldset' width={300} >
+					<FormLabel>性別</FormLabel>
+					<Select name="sex" onChange={ selectSex } placeholder='性別を選択'>
+						{ sexitems.map( btn =>
+							<option key={ btn.id } value={btn.value}>{ btn.message }</option>
+						)}
+					</Select>
+					<br />
+					<FormLabel>年代</FormLabel>
+					<Select name="gen" onChange={ selectGen }　placeholder='年代を選択'>
+						{ genitems.map( btn =>
+							<option key={ btn.id } value={btn.value}>{ btn.message }</option>
+						)}
+					</Select>
+					<br />
+					コメント<br />
+					<Input value={ comment } type="text" name="comment" onChange={ putComment } placeholder='200文字以内'/>
+					<br />
+					{/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
+					<Button type="submit" mt={4} onClick={ () => CallApi() }>共有する</Button>
+					<Box fontSize={100}>{ thanks }</Box>
+				</FormControl>
+				<br />
+				<Link href={ { pathname: '/' } }><Button bg='green.200' rounded='base' >トップに戻る</Button></Link>
 			</Box>
-			<br />
-		  <FormControl as='fieldset' width={300} >
-				<FormLabel>性別</FormLabel>
-				<Select name="sex" onChange={ selectSex } placeholder='性別を選択'>
-					{ sexitems.map( btn =>
-						<option key={ btn.id } value={btn.value}>{ btn.message }</option>
-					)}
-				</Select>
-				<br />
-				<FormLabel>年代</FormLabel>
-				<Select name="gen" onChange={ selectGen }　placeholder='年代を選択'>
-					{ genitems.map( btn =>
-						<option key={ btn.id } value={btn.value}>{ btn.message }</option>
-					)}
-				</Select>
-				<br />
-				コメント<br />
-				<Input value={ comment } type="text" name="comment" onChange={ putComment } placeholder='200文字以内'/>
-				<br />
-        {/* ↓↓ 参考：https://qiita.com/haruraruru/items/53614e739437bf7e5b1c */}
-        <Button type="submit" mt={4} onClick={ () => CallApi() }>共有する</Button>
-				<Box fontSize={100}>{ thanks }</Box>
-		  </FormControl>
-			<br />
-			<Link href={ { pathname: '/' } }><Button bg='green.200' rounded='base' >トップに戻る</Button></Link>
+
 		</>
 	);
 };
