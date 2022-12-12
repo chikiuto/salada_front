@@ -24,6 +24,7 @@ type Report = {
 	recipe_id: number;
 	title: string;
 	food_image_url: string;
+	created_at:string;
 }
 
 type Props = {
@@ -47,6 +48,7 @@ const Home: FC<Props> = (props) => {
 						<Th>Comment</Th>
 						<Th>recipe title</Th>
 						<Th>Image</Th>
+						<Th>date</Th>
 					</Tr>
 				</Thead>
 				{props.reports && props.reports.map((report) =>
@@ -57,6 +59,7 @@ const Home: FC<Props> = (props) => {
 						<Td>{report.comment}</Td>
 						<Td>{report.title}</Td>
 						<Td><Image src={ report.food_image_url } alt="food_img" width={100} height={100}/></Td>
+						<Td>{report.created_at}</Td>
 					</Tr>
 				</Tbody>
 				)}
